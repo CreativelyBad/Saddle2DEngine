@@ -1,19 +1,14 @@
 #include "Game.h"
 #include "TextureManager.h"
-#include "GameObject.h"
 #include "Map.h"
+#include "ECS/Components.h"
 
-#include "ECS.h"
-#include "Components.h"
-
-GameObject* player;
-GameObject* enemy;
 Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
 
 Manager manager;
-auto& newPlayer(manager.AddEntity());
+auto& player(manager.AddEntity());
 
 Game::Game()
 {
@@ -50,12 +45,11 @@ void Game::Init(const char* title, int xpos, int ypos, int width, int height, Ui
 		isRunning = true;
 
 		// create game objects
-		player = new GameObject("assets/player.png", 0, 0);
-		enemy = new GameObject("assets/enemy.png", 50, 50);
 		map = new Map();
 
-		newPlayer.AddComponent<PositionComponent>();
-		newPlayer.GetComponent<PositionComponent>().SetPosition(500, 500);
+		// player ecs implementation
+		player.AddComponent<PositionComponent>();
+		player.AddComponent<SpriteComponent>("assets/player.png");
 	}
 	else
 	{
@@ -83,11 +77,8 @@ void Game::HandleEvents()
 
 void Game::Update()
 {
-	player->Update();
-	enemy->Update();
+	manager.Refresh();
 	manager.Update();
-	std::cout << newPlayer.GetComponent<PositionComponent>().GetX() << ", " <<
-		newPlayer.GetComponent<PositionComponent>().GetY() << std::endl;
 }
 
 void Game::Render()
@@ -97,8 +88,7 @@ void Game::Render()
 
 	// <-- THIS IS WHERE WE ADD STUFF TO RENDER -->
 	map->DrawMap();
-	player->Render();
-	enemy->Render();
+	manager.Draw();
 
 	// show backbuffer
 	SDL_RenderPresent(renderer);

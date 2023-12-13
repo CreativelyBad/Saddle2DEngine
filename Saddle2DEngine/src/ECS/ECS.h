@@ -58,10 +58,13 @@ public:
 	void Update()
 	{
 		for (auto& c : components) c->Update();
+	}
+
+	void Draw()
+	{
 		for (auto& c : components) c->Draw();
 	}
 
-	void Draw();
 	bool isActive() { return active; }
 	void Destroy() { active = false; }
 

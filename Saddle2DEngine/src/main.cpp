@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
 	// create game
 	game = new Game();
-	game->Init("Saddle Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
+	game->Init("Saddle Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_SHOWN);
 
 	// game loop
 	while (game->Running())

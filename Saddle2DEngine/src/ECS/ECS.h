@@ -71,7 +71,7 @@ public:
 	// checks if entity has component of type
 	template <typename T> bool HasComponent() const
 	{
-		return componentBitSet[GetComponentTypeID<T>];
+		return componentBitSet[GetComponentTypeID<T>()];
 	}
 
 	template <typename T, typename... TArgs>
